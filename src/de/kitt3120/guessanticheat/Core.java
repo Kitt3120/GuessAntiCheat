@@ -1,6 +1,7 @@
 package de.kitt3120.guessanticheat;
 
 import de.kitt3120.guessanticheat.managers.ModuleRegistry;
+import de.kitt3120.guessanticheat.utils.LocationUtils;
 import org.bukkit.plugin.java.JavaPlugin;
 
 /**
@@ -14,8 +15,17 @@ public class Core extends JavaPlugin {
     public void onEnable() {
         instance = this;
 
+        LocationUtils.setup();
         ModuleRegistry.setup();
 
         getLogger().info("Started");
+    }
+
+    @Override
+    public void onDisable() {
+        LocationUtils.onDisable();
+        getLogger().info("Stopping location updaters");
+
+        ModuleRegistry.onDisable();
     }
 }

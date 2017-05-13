@@ -36,6 +36,12 @@ public class ModuleRegistry {
         }, 5*20L, 1);
     }
 
+    public static void onDisable() {
+        for(Module module : getModules()) {
+            module.setEnabled(false);
+        }
+    }
+
     public static void registerModule(Module module) {
         Plugin plugin = module.getPlugin();
         List<Module> modules;
