@@ -64,7 +64,7 @@ public class LocationUtils {
         return lastTickLocations.get(player);
     }
 
-    public static Location getSecondTickLocation(Player player) throws NullPointerException {
+    public static Location getLastSecondLocation(Player player) throws NullPointerException {
         if(!lastSecondLocations.containsKey(player)) throw new NullPointerException();
         return lastSecondLocations.get(player);
     }

@@ -1,15 +1,16 @@
 package de.kitt3120.guessanticheat.modules.modules;
 
-import org.bukkit.GameMode;
+import de.kitt3120.guessanticheat.Core;
+import de.kitt3120.guessanticheat.modules.Module;
+import de.kitt3120.guessanticheat.utils.LocationUtils;
+import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.block.Block;
+import org.bukkit.block.BlockFace;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerMoveEvent;
-
-import de.kitt3120.guessanticheat.Core;
-import de.kitt3120.guessanticheat.modules.Module;
-import de.kitt3120.guessanticheat.utils.LocationUtils;
 
 public class WaterWalk extends Module{
 
@@ -34,47 +35,30 @@ public class WaterWalk extends Module{
 	@Override
 	public void onTick() {		
 	}
-	
-	@EventHandler
-	public void waterwalk(PlayerMoveEvent e){
-		if(getFlat(e.getPlayer(), 3) == true){
-			return;
-		}
-		if(e.getPlayer().getGameMode() == GameMode.CREATIVE){
-			return;
-		}
-		if(e.getPlayer().isOp()){
-			return;
-		}
-		if (e.getFrom().getY() - e.getTo().getY() == 0
-				&& e.getPlayer().getLocation().subtract(0, 1, 0).getBlock().isLiquid()
-				&& e.getPlayer().getLocation().getBlock().getType() == Material.AIR
-				|| e.getFrom().getY() - e.getTo().getY() == 0
-				&& e.getPlayer().getLocation().subtract(0, 1, 0).getBlock().isLiquid()
-				&& e.getPlayer().getLocation().subtract(0, 2, 0).getBlock().isLiquid()
-				&& e.getPlayer().getLocation().getBlock().getType() == Material.AIR) {
-			e.getPlayer().sendMessage("§4§lWaterWalk");
-			
-			e.getPlayer().teleport(LocationUtils.getLastGroundLocation(e.getPlayer()));
-			
-			
-			
-		}
-	}
-	public boolean getFlat(Player p,int radius){
-		for(int x=p.getLocation().getBlockX(); x<p.getLocation().getBlockX() + radius; x++) {
-			  for(int z=p.getLocation().getBlockZ(); z<p.getLocation().getBlockZ() + radius; z++) {
-				  if(!p.getLocation().getWorld().getBlockAt(x-radius/2, p.getLocation().subtract(0, 1, 0).getBlockY(), z-radius/2).isLiquid()){
-					  return true;
-				  }
-			 }
-		}
-		return false;
-	}
 
 	@Override
 	public Listener getListener() {
 		return this;
+	}
+	
+	@EventHandler
+	public void waterwalk(PlayerMoveEvent e){
+		Player player = e.getPlayer();
+		Location location = player.getLocation();
+
+		if(location.distance(LocationUtils.getLastGroundLocation(player)) > 3) {
+			Block belowBlock = player.getLocation().getBlock();
+			while(belowBlock.getLocation().getY() > 0 && !belowBlock.getType().equals(Material.AIR)) {
+				belowBlock = belowBlock.getRelative(BlockFace.DOWN);
+			}
+			if(belowBlock.getType().equals(Material.WATER) || belowBlock.getType().equals(Material.STATIONARY_WATER)) {
+				if(belowBlock.getLocation().distance(player.getLocation()) < 2) {
+					if(LocationUtils.getLastSecondLocation(player).getBlock().getType().equals(Material.AIR) || player.getLocation().getBlock().getType().equals(Material.AIR)) {
+						player.teleport(LocationUtils.getLastGroundLocation(player));
+					}
+				}
+			}
+		}
 	}
 
 }
