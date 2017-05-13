@@ -58,4 +58,24 @@ public class LocationUtils {
         lastFiveSecondLocationUpdater.cancel();
     }
 
+    public static Location getLastTickLocation(Player player) throws NullPointerException {
+        if(!lastTickLocations.containsKey(player)) throw new NullPointerException();
+        return lastTickLocations.get(player);
+    }
+
+    public static Location getSecondTickLocation(Player player) throws NullPointerException {
+        if(!lastSecondLocations.containsKey(player)) throw new NullPointerException();
+        return lastSecondLocations.get(player);
+    }
+
+    public static Location getLastFiveSecondLocation(Player player) throws NullPointerException {
+        if(!lastFiveSecondLocations.containsKey(player)) throw new NullPointerException();
+        return lastFiveSecondLocations.get(player);
+    }
+
+    public static Location getLastGroundLocation(Player player) throws NullPointerException {
+        if(!lastGroundLocation.containsKey(player)) throw new NullPointerException();
+        return lastGroundLocation.get(player);
+    }
+
 }
