@@ -36,6 +36,9 @@ public abstract class Module implements Listener {
     /* Runs when every tick */
     public abstract void onTick();
 
+    /* Return this here! */
+    public abstract Listener getListener();
+
     public Plugin getPlugin() {
         return plugin;
     }
@@ -51,12 +54,12 @@ public abstract class Module implements Listener {
     public void setEnabled(boolean enabled) {
         if(enabled) {
             if(!isEnabled()) {
-                Core.instance.getServer().getPluginManager().registerEvents(this, getPlugin());
+                Core.instance.getServer().getPluginManager().registerEvents(getListener(), getPlugin());
                 onEnable();
             }
         } else {
             if(isEnabled()){
-                HandlerList.unregisterAll(this);
+                HandlerList.unregisterAll(getListener());
                 onDisable();
             }
         }
