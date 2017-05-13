@@ -1,5 +1,6 @@
 package de.kitt3120.guessanticheat;
 
+import de.kitt3120.guessanticheat.managers.ModuleRegistry;
 import org.bukkit.plugin.java.JavaPlugin;
 
 /**
@@ -7,8 +8,14 @@ import org.bukkit.plugin.java.JavaPlugin;
  */
 public class Core extends JavaPlugin {
 
+    public static Core instance;
+
     @Override
     public void onEnable() {
-        
+        instance = this;
+
+        ModuleRegistry.setup();
+
+        getLogger().info("Started");
     }
 }
