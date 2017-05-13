@@ -5,6 +5,7 @@ import de.kitt3120.guessanticheat.exceptions.modules.NoSuchModuleForThatPluginRe
 import de.kitt3120.guessanticheat.exceptions.modules.NoSuchPluginRegisteredException;
 import de.kitt3120.guessanticheat.modules.Module;
 import org.bukkit.plugin.Plugin;
+import org.bukkit.scheduler.BukkitTask;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -18,10 +19,21 @@ public class ModuleRegistry {
 
     private static HashMap<Plugin, List<Module>> registeredModules = new HashMap<Plugin, List<Module>>();
 
+    private static BukkitTask tickerTask;
+
     public static void setup() {
         //TODO: Register own modules
 
         Core.instance.getLogger().info("ModuleRegistry set up");
+
+        tickerTask = Core.instance.getServer().getScheduler().runTaskTimer(Core.instance, new Runnable() {
+            @Override
+            public void run() {
+                for(Module module : getModules()) {
+                    module.onTick();
+                }
+            }
+        }, 5*20L, 1);
     }
 
     public static void registerModule(Module module) {
