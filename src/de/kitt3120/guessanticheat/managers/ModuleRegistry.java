@@ -40,6 +40,7 @@ public class ModuleRegistry {
         for(Module module : getModules()) {
             module.setEnabled(false);
         }
+        tickerTask.cancel();
     }
 
     public static void registerModule(Module module) {
