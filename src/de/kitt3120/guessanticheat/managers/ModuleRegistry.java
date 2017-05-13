@@ -4,6 +4,8 @@ import de.kitt3120.guessanticheat.Core;
 import de.kitt3120.guessanticheat.exceptions.modules.NoSuchModuleForThatPluginRegisteredException;
 import de.kitt3120.guessanticheat.exceptions.modules.NoSuchPluginRegisteredException;
 import de.kitt3120.guessanticheat.modules.Module;
+import de.kitt3120.guessanticheat.modules.modules.WaterWalk;
+
 import org.bukkit.plugin.Plugin;
 import org.bukkit.scheduler.BukkitTask;
 
@@ -23,7 +25,10 @@ public class ModuleRegistry {
 
     public static void setup() {
         //TODO: Register own modules
-
+    	
+    	registerModule(new WaterWalk());
+    	
+    	
         Core.instance.getLogger().info("ModuleRegistry set up");
 
         tickerTask = Core.instance.getServer().getScheduler().runTaskTimer(Core.instance, new Runnable() {

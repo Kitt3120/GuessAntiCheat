@@ -2,6 +2,7 @@ package de.kitt3120.guessanticheat.utils;
 
 import de.kitt3120.guessanticheat.Core;
 import org.bukkit.Location;
+import org.bukkit.block.BlockFace;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitTask;
@@ -28,7 +29,7 @@ public class LocationUtils {
             public void run() {
                 for(Player player : Core.instance.getServer().getOnlinePlayers()) {
                     lastTickLocations.put(player, player.getLocation());
-                    if(((LivingEntity)player).isOnGround()) { //Player.isOnGround() is deprecated so we use the LivingEntity one
+                    if(((LivingEntity)player).isOnGround() && !player.getLocation().getBlock().getRelative(BlockFace.DOWN).isLiquid()) { //Player.isOnGround() is deprecated so we use the LivingEntity one
                         lastGroundLocation.put(player, player.getLocation());
                     }
                 }

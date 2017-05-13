@@ -4,6 +4,7 @@ import org.bukkit.GameMode;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerMoveEvent;
 
 import de.kitt3120.guessanticheat.Core;
@@ -17,7 +18,9 @@ public class WaterWalk extends Module{
 	}
 
 	@Override
-	public void onRegister() {	}
+	public void onRegister() {	
+		
+	}
 
 	@Override
 	public void onEnable() {
@@ -45,6 +48,10 @@ public class WaterWalk extends Module{
 		}
 		if (e.getFrom().getY() - e.getTo().getY() == 0
 				&& e.getPlayer().getLocation().subtract(0, 1, 0).getBlock().isLiquid()
+				&& e.getPlayer().getLocation().getBlock().getType() == Material.AIR
+				|| e.getFrom().getY() - e.getTo().getY() == 0
+				&& e.getPlayer().getLocation().subtract(0, 1, 0).getBlock().isLiquid()
+				&& e.getPlayer().getLocation().subtract(0, 2, 0).getBlock().isLiquid()
 				&& e.getPlayer().getLocation().getBlock().getType() == Material.AIR) {
 			e.getPlayer().sendMessage("§4§lWaterWalk");
 			
@@ -63,6 +70,11 @@ public class WaterWalk extends Module{
 			 }
 		}
 		return false;
+	}
+
+	@Override
+	public Listener getListener() {
+		return this;
 	}
 
 }

@@ -1,0 +1,5 @@
+name: GuessAntiCheat
+author: [Kitt3120,ProaniaMC]
+version: 0.1
+main: de.kitt3120.guessanticheat.Core
+commands:
