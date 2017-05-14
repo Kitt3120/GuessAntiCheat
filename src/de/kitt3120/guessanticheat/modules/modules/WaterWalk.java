@@ -19,13 +19,13 @@ public class WaterWalk extends Module{
 	}
 
 	@Override
-	public void onRegister() {	
-		
+	public void onRegister() {
+
 	}
 
 	@Override
 	public void onEnable() {
-		
+
 	}
 
 	@Override
@@ -33,27 +33,28 @@ public class WaterWalk extends Module{
 	}
 
 	@Override
-	public void onTick() {		
+	public void onTick() {
 	}
 
 	@Override
 	public Listener getListener() {
 		return this;
 	}
-	
+
 	@EventHandler
 	public void waterwalk(PlayerMoveEvent e){
 		Player player = e.getPlayer();
 		Location location = player.getLocation();
 
-		if(location.distance(LocationUtils.getLastGroundLocation(player)) > 3) {
+		if(location.distance(LocationUtils.getLastGroundLocation(player)) > 7) {
 			Block belowBlock = player.getLocation().getBlock();
-			while(belowBlock.getLocation().getY() > 0 && !belowBlock.getType().equals(Material.AIR)) {
+			while(belowBlock.getLocation().getY() > 0 && !(belowBlock.getType().equals(Material.WATER) || belowBlock.getType().equals(Material.STATIONARY_WATER))) {
 				belowBlock = belowBlock.getRelative(BlockFace.DOWN);
 			}
 			if(belowBlock.getType().equals(Material.WATER) || belowBlock.getType().equals(Material.STATIONARY_WATER)) {
 				if(belowBlock.getLocation().distance(player.getLocation()) < 2) {
-					if(LocationUtils.getLastSecondLocation(player).getBlock().getType().equals(Material.AIR) || player.getLocation().getBlock().getType().equals(Material.AIR)) {
+					if (LocationUtils.getLastSecondLocation(player).getBlock().getType().equals(Material.AIR)
+							&& player.getLocation().getBlock().getType().equals(Material.AIR)) {
 						player.teleport(LocationUtils.getLastGroundLocation(player));
 					}
 				}

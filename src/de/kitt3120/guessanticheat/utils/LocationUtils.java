@@ -29,7 +29,7 @@ public class LocationUtils {
             public void run() {
                 for(Player player : Core.instance.getServer().getOnlinePlayers()) {
                     lastTickLocations.put(player, player.getLocation());
-                    if(((LivingEntity)player).isOnGround() && !player.getLocation().getBlock().getRelative(BlockFace.DOWN).isLiquid()) { //Player.isOnGround() is deprecated so we use the LivingEntity one
+                    if(((LivingEntity)player).isOnGround() && !player.getLocation().getBlock().getRelative(BlockFace.DOWN).isLiquid() && !player.getLocation().getBlock().isLiquid() && !player.getLocation().getBlock().getRelative(BlockFace.UP).isLiquid()) { //Player.isOnGround() is deprecated so we use the LivingEntity one
                         lastGroundLocation.put(player, player.getLocation());
                     }
                 }
