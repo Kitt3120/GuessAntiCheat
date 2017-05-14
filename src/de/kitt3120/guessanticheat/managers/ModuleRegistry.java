@@ -4,6 +4,7 @@ import de.kitt3120.guessanticheat.Core;
 import de.kitt3120.guessanticheat.exceptions.modules.NoSuchModuleForThatPluginRegisteredException;
 import de.kitt3120.guessanticheat.exceptions.modules.NoSuchPluginRegisteredException;
 import de.kitt3120.guessanticheat.modules.Module;
+import de.kitt3120.guessanticheat.modules.modules.AntiSpam;
 import de.kitt3120.guessanticheat.modules.modules.WaterWalk;
 
 import org.bukkit.plugin.Plugin;
@@ -27,6 +28,7 @@ public class ModuleRegistry {
         //TODO: Register own modules
     	
     	registerModule(new WaterWalk());
+    	registerModule(new AntiSpam());
     	
     	
         Core.instance.getLogger().info("ModuleRegistry set up");
@@ -60,7 +62,7 @@ public class ModuleRegistry {
         registeredModules.put(plugin, modules);
         module.onRegister();
         if(module.shouldEnableOnRegister()) module.setEnabled(true);
-        Core.instance.getLogger().fine("Registered Module \"" + module.getName() + "\n by plugin \"" + plugin.getName() + "\"");
+        Core.instance.getLogger().info("Registered Module \"" + module.getName() + "\n by plugin \"" + plugin.getName() + "\"");
     }
 
     public static List<Module> getModules() {
